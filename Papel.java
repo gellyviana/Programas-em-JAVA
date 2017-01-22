@@ -2,7 +2,6 @@ class Papel{
     private int numeracao;
     private int quantidade;
     private int gramatura;
-    private String marca;
     private String dimensoes;
     private boolean vendido;
 
@@ -17,10 +16,6 @@ class Papel{
     public void setGramatura(int grt){
         this.gramatura = grt;
     }
-
-    public void setMarca(String marc){
-        this.marca = marc;
-    }
      
     public void setDimensoes(String dim){
         this.dimensoes = dim;
@@ -34,10 +29,6 @@ class Papel{
         return this.gramatura;
     }
 
-    public String getMarca(){
-        return this.marca;
-    }
-
     public String getDimensoes(){
         return this.dimensoes;
     }
@@ -46,14 +37,48 @@ class Papel{
         return this.numeracao;
     }
 
-    public void verificaVenda(int codigo){
-        if(this.numeracao == codigo){
-            System.out.println("Resma já foi vendida.");
+    public void verificaVenda(int resmas){
+        EstoquePapel ver = new EstoquePapel();
+        if(ver.getTotalResma() <= resmas){
+            System.out.println("Impossivel venda, não possui em estoque.");
         }else{
-            System.out.println("Resma pode ser vendida.");
-            this.vendido = true;
+            ver.setDiminuiEstoque(resmas);
+            System.out.println("Venda autorizada.");
         }
     }
+}
+
+class EstoquePapel{
+    private int totalResma;
+    private String marca;
+    private boolean estoque;
+
+    public EstoquePapel(){
+        this.totalResma = 10000;
+        this.marca = "CHAMEX";
+        this.estoque = true;
+    }
+
+    public void setTotalResma(int valor){
+        this.totalResma = valor;
+    }
+
+    public void setMarca(String marc){
+        this.marca = marc;
+    }
+
+    public int getTotalResma(){
+        return this.totalResma;
+    }
+
+    public String getMarca(){
+        return this.marca;
+    }
+
+    public void setDiminuiEstoque(int qtd){
+        this.totalResma -= qtd;
+    }
+
 }
 
 class TestaPapel{
@@ -61,13 +86,11 @@ class TestaPapel{
         Papel paper = new Papel();
         paper.setQuantidade(500);
         paper.setGramatura(75);
-        paper.setMarca("Chamex");
         paper.setDimensoes("210x297mm");
-        paper.setNumeracao(1225);
+        paper.setNumeracao(9999);
         
         System.out.println(paper.getQuantidade());
         System.out.println(paper.getGramatura());
-        System.out.println(paper.getMarca());
         System.out.println(paper.getDimensoes());
         System.out.println(paper.getNumeracao());
 
